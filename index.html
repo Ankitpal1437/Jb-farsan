@@ -57,7 +57,80 @@
   }
   .hero-visual .stack{transition:transform 0.1s linear;}
   .count-up{display:inline-block;}
-  header{position:sticky;top:0;z-index:50;background:rgba(255,255,255,0.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);}
+
+  /* cinematic 3D hero */
+  .hero3d{
+    position:relative;overflow:hidden;
+    background:radial-gradient(ellipse 900px 600px at 15% -10%, rgba(200,30,30,0.08), transparent 60%),
+               radial-gradient(ellipse 800px 600px at 90% 100%, rgba(184,134,59,0.14), transparent 60%),
+               var(--paper);
+    min-height:88vh;display:flex;align-items:center;
+  }
+  #heroCanvas{position:absolute;inset:0;z-index:1;pointer-events:none;}
+  .hero3d .wrap{position:relative;z-index:2;}
+  .hero3d .hero-grid{display:grid;grid-template-columns:1.05fr 0.95fr;gap:40px;align-items:center;padding:60px 0;}
+  @media (max-width:900px){.hero3d .hero-grid{grid-template-columns:1fr;}}
+
+  .glass-eyebrow{
+    display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:0.7rem;letter-spacing:2px;text-transform:uppercase;
+    color:var(--red-dark);background:var(--gold-light);border:1px solid rgba(184,134,59,0.35);
+    padding:8px 16px;border-radius:999px;margin-bottom:24px;font-weight:700;
+  }
+  .glass-eyebrow::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--red);box-shadow:0 0 6px 1px rgba(200,30,30,0.5);}
+
+  .hero3d h1{font-family:var(--display);font-weight:700;font-size:clamp(2.2rem,5.5vw,3.8rem);line-height:1.1;color:var(--ink);}
+  .hero3d h1 em{font-style:normal;color:var(--red);}
+  .hero3d p.lede{margin-top:20px;max-width:520px;font-size:1.05rem;color:var(--ink-soft);}
+
+  .hero3d .hero-actions{display:flex;flex-wrap:wrap;gap:14px;margin-top:34px;}
+  .glow-btn{
+    display:inline-flex;align-items:center;gap:10px;font-weight:700;font-size:0.9rem;padding:15px 26px;border-radius:999px;
+    transition:transform .2s ease, box-shadow .2s ease;
+  }
+  .glow-btn:hover{transform:translateY(-3px);}
+  .glow-gold{background:linear-gradient(90deg,#E8B23D,#C9973F);color:#1C120C;box-shadow:0 8px 30px rgba(232,178,61,0.35);}
+  .glow-outline{background:var(--paper);color:var(--ink);border:1.5px solid var(--line);box-shadow:0 4px 14px rgba(36,18,9,0.06);}
+
+  .hero3d .trust-row{display:flex;flex-wrap:wrap;gap:26px;margin-top:40px;padding-top:26px;border-top:1px solid var(--line);}
+  .hero3d .trust-item b{display:block;font-family:var(--display);font-size:1.6rem;color:var(--red);line-height:1;margin-bottom:4px;}
+  .hero3d .trust-item span{font-size:0.75rem;color:var(--ink-soft);}
+
+  /* 3D tilt product stage */
+  .tilt-stage{perspective:1200px;display:flex;justify-content:center;align-items:center;position:relative;height:460px;}
+  .tilt-card{
+    position:relative;width:280px;transform-style:preserve-3d;
+    transition:transform 0.15s ease-out;
+    animation:heroBob 5s ease-in-out infinite;
+  }
+  @keyframes heroBob{0%,100%{transform:translateY(0px) rotateX(4deg) rotateY(-6deg);}50%{transform:translateY(-16px) rotateX(-2deg) rotateY(6deg);}}
+  .tilt-card img{width:100%;filter:drop-shadow(0 40px 60px rgba(0,0,0,0.6));border-radius:14px;}
+  .tilt-glow{position:absolute;bottom:-30px;left:50%;transform:translateX(-50%);width:220px;height:60px;background:radial-gradient(ellipse,rgba(232,178,61,0.55),transparent 70%);filter:blur(10px);z-index:-1;}
+  @media (prefers-reduced-motion: reduce){.tilt-card{animation:none;}}
+  @media (max-width:900px){.tilt-stage{height:340px;}.tilt-card{width:220px;}}
+
+  /* ambient floating namkeen particles across whole site */
+  .namkeen-field{position:fixed;inset:0;pointer-events:none;z-index:2;overflow:hidden;}
+  .namkeen-drift{position:absolute;border-radius:50%;opacity:0.55;animation:driftFloat linear infinite;}
+  @keyframes driftFloat{
+    0%{transform:translateY(0) translateX(0) rotate(0deg);}
+    50%{transform:translateY(-40px) translateX(18px) rotate(180deg);}
+    100%{transform:translateY(0) translateX(0) rotate(360deg);}
+  }
+
+  /* particles that fly into a product image on reveal */
+  .namkeen-bit{
+    position:absolute;border-radius:50%;pointer-events:none;z-index:5;
+    transition:left 0.9s cubic-bezier(.2,.6,.3,1), top 0.9s cubic-bezier(.2,.6,.3,1), opacity 0.9s ease, transform 0.9s ease;
+  }
+  @media (prefers-reduced-motion: reduce){
+    .namkeen-field{display:none;}
+    .namkeen-bit{display:none;}
+  }
+  header{position:sticky;top:0;z-index:50;background:transparent;backdrop-filter:blur(0px);border-bottom:1px solid transparent;transition:background .3s ease, backdrop-filter .3s ease, border-color .3s ease;}
+  header.scrolled{background:rgba(255,255,255,0.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);}
+  header .brandmark .name, header .nav-links a{color:var(--ink);transition:color .3s ease;}
+  header.scrolled .brandmark .name, header.scrolled .nav-links a{color:var(--ink);}
+  header .brandmark .name small{color:#E8B23D;}
   .nav{display:flex;align-items:center;justify-content:space-between;padding:14px 24px;}
   .brandmark{display:flex;align-items:center;gap:12px;}
   .brandmark img{width:40px;height:40px;border-radius:50%;box-shadow:0 2px 8px rgba(200,30,30,0.25);}
@@ -218,592 +291,4 @@
   footer li a:hover{color:#fff;}
   .foot-brand{display:flex;align-items:center;gap:12px;margin-bottom:14px;}
   .foot-brand img{width:36px;height:36px;border-radius:50%;}
-  .foot-brand span{font-family:var(--display);font-weight:700;font-size:1.1rem;color:#fff;}
-  .foot-bottom{margin-top:44px;padding-top:22px;border-top:1px solid rgba(241,220,168,0.15);display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;font-family:var(--mono);font-size:0.72rem;color:rgba(241,220,168,0.6);}
-</style>
-</head>
-<body>
-
-<div class="float-stack">
-  <a class="float-btn float-whatsapp" href="https://wa.me/919765083939?text=Hi%2C%20I%27d%20like%20to%20order%20from%20JB%20Farsan" target="_blank" rel="noopener" aria-label="Message JB Farsan on WhatsApp">
-    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.02 2c-5.5 0-9.96 4.46-9.96 9.96 0 1.76.46 3.48 1.34 4.99L2 22l5.2-1.36a9.9 9.9 0 0 0 4.82 1.23h.01c5.5 0 9.96-4.46 9.96-9.96S17.52 2 12.02 2zm5.87 14.07c-.25.7-1.45 1.34-2 1.42-.55.09-1.1.13-3.53-.74-2.96-1.08-4.86-4.03-5.01-4.22-.15-.19-1.2-1.6-1.2-3.05 0-1.45.76-2.16 1.03-2.46.27-.3.59-.37.79-.37.2 0 .4 0 .57.01.18.01.43-.07.67.51.25.6.85 2.06.92 2.21.07.15.12.32.02.51-.1.19-.15.3-.3.47-.15.17-.31.37-.44.5-.15.14-.3.3-.13.6.17.3.76 1.25 1.63 2.03 1.12.99 2.06 1.3 2.36 1.45.3.15.48.13.65-.08.18-.2.75-.87.95-1.17.2-.3.4-.25.67-.15.28.1 1.75.83 2.05.98.3.15.5.22.57.35.08.13.08.72-.17 1.42z"/></svg>
-    <span>WhatsApp</span>
-  </a>
-  <a class="float-btn float-insta" href="https://www.instagram.com/jb_farsan/" target="_blank" rel="noopener" aria-label="Follow JB Farsan on Instagram">
-    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.16c3.2 0 3.58.01 4.85.07 3.25.15 4.77 1.69 4.92 4.92.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.15 3.23-1.66 4.77-4.92 4.92-1.27.06-1.64.07-4.85.07s-3.58-.01-4.85-.07c-3.26-.15-4.77-1.7-4.92-4.92-.06-1.27-.07-1.65-.07-4.85s.01-3.58.07-4.85C2.38 3.9 3.9 2.38 7.15 2.23 8.42 2.17 8.8 2.16 12 2.16zm0 5.62a4.22 4.22 0 1 0 0 8.44 4.22 4.22 0 0 0 0-8.44zm0 6.96a2.74 2.74 0 1 1 0-5.48 2.74 2.74 0 0 1 0 5.48zm5.4-7.12a.99.99 0 1 1-1.98 0 .99.99 0 0 1 1.98 0z"/></svg>
-    <span>Follow us</span>
-  </a>
-  <a class="float-btn float-fb" href="https://www.facebook.com/jbfarsann/" target="_blank" rel="noopener" aria-label="Follow JB Farsan on Facebook">
-    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22 12.06C22 6.5 17.52 2 12 2S2 6.5 2 12.06C2 17.08 5.66 21.23 10.44 22v-7.02H7.9v-2.92h2.54V9.85c0-2.5 1.49-3.89 3.77-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56v1.88h2.78l-.45 2.92h-2.33V22C18.34 21.23 22 17.08 22 12.06z"/></svg>
-    <span>Facebook</span>
-  </a>
-</div>
-
-<header>
-  <nav class="nav wrap">
-    <div class="brandmark">
-      <img src="images/jb-logo.png" alt="JB logo">
-      <div class="name">Jairamdas Bhojraj<small>JB Farsan &amp; Sweets</small></div>
-    </div>
-    <div class="nav-links">
-      <a href="#products">Products</a>
-      <a href="#legacy">Our Legacy</a>
-      <a href="story.html">Our Story</a>
-      <a href="#order">Order</a>
-    </div>
-    <a class="btn-mini" href="#order">Order Now</a>
-  </nav>
-</header>
-
-<section class="hero">
-  <div class="wrap hero-grid">
-    <div>
-      <span class="eyebrow">Ulhasnagar No. 1 · Est. 1972</span>
-      <h1>Farsan that tastes like <em>home</em>, packed fresh every day.</h1>
-      <p class="lede">The same tin your family has trusted since 1972 — Jairamdas Bhojraj has been Ulhasnagar's own farsan counter for over five decades. Now the same taste of home, delivered straight to your door.</p>
-      <div class="hero-actions">
-        <a class="cta-btn cta-zomato" href="https://www.zomato.com/mumbai/jb-farsan-and-sweet-mart-ulhasnagar-thane/order" target="_blank" rel="noopener">Order on Zomato</a>
-        <a class="cta-btn cta-swiggy" href="https://www.swiggy.com/city/mumbai/jb-farsan-and-sweet-mart-ulhasnagar-rest1151030" target="_blank" rel="noopener">Order on Swiggy</a>
-        <a class="cta-btn cta-whatsapp" href="https://wa.me/919765083939?text=Hi%2C%20I%27d%20like%20to%20order%20from%20JB%20Farsan" target="_blank" rel="noopener">Order on WhatsApp</a>
-      </div>
-      <div class="trust-row">
-        <div class="trust-item"><b>50+</b><span>Years in Ulhasnagar</span></div>
-        <div class="trust-item"><b>4.3★</b><span>Zomato &amp; Justdial rating</span></div>
-        <div class="trust-item"><b>535+</b><span>Verified reviews</span></div>
-        <div class="trust-item"><b>100%</b><span>Veg, no added colours</span></div>
-      </div>
-    </div>
-    <div class="hero-visual">
-      <div class="stack">
-        <div class="ring"></div>
-        <img class="ghost" src="images/khatta-meetha.jpg" alt="">
-        <img class="ghost2" src="images/misal-bhel.jpg" alt="">
-        <img src="images/kolhapuri-mix.jpg" alt="JB Kolhapuri Mix pack">
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="legacy" id="legacy">
-  <div class="legacy-hero wrap">
-    <div class="legacy-seal">
-      <img src="images/jb-logo.png" alt="JB — Jairamdas Bhojraj seal">
-    </div>
-    <span class="est">Est. 1972 · Ulhasnagar No. 1</span>
-    <h2>Founded by Shri. Jairamdas Bhojraj in 1972.</h2>
-    <p class="sub">JB Farsan began as a humble shop offering a few select products. Over the decades, it has grown into a renowned brand — built on what we still call our Three P's: Pricing, Purity, and Packaging.</p>
-    <div class="legacy-timeline">
-      <div class="yr"><b>1972</b><span>Shop opens</span></div>
-      <div class="yr"><b>50+</b><span>Years running</span></div>
-      <div class="yr"><b>2026</b><span>Now online</span></div>
-    </div>
-  </div>
-  <div class="wrap">
-    <div>
-      <span class="tag">Our Shops</span>
-      <h3 class="shop-title">Shop No. 446, Shiv Road, Near MSEB Office, Ulhasnagar-421001</h3>
-      <h3 class="shop-title" style="margin-top:10px;">Plot No. 46, Opp. Bhajrang Ice Factory, Khemani, Ulhasnagar-421002</h3>
-    </div>
-    <div>
-      <p>Every jar of Kolhapuri Mix, Chewda and Papdi at JB Farsan is still made the way it was back in 1972 — small batches, no added colours, no shortcuts, and a jar that empties faster than it should. This is the tin every Ulhasnagar household grew up on — the one you'd run to the shop for when guests dropped by unannounced. What started as one counter in Ulhasnagar No. 1 is now ordered across Thane, Kalyan and beyond — same recipe, same apnapan, just a wider reach.</p>
-    </div>
-  </div>
-</section>
-
-<section class="products" id="products">
-  <div class="wrap">
-    <div class="section-head reveal">
-      <span class="tag">The Tin</span>
-      <h2>Eight jars. One counter. Zero compromise.</h2>
-      <p>Every pack below is what's actually on our Zomato &amp; Swiggy menu — same price, same 200g weight, same tin you'd get walking into the shop.</p>
-    </div>
-
-    <div class="grid">
-
-      <div class="card reveal">
-        <div class="accent-bar" style="background:var(--c-kolhapuri)"></div>
-        <div class="imgwrap"><img src="images/kolhapuri-mix.jpg" alt="JB Kolhapuri Mix 200g pack"></div>
-        <div class="body">
-          <span class="spicy">🌶 Spicy</span>
-          <h3>Kolhapuri Mix</h3>
-          <p class="desc">Our bestseller — a fiery Kolhapuri-style blend of sev, chana, peanuts and dry chillies. Highly reordered.</p>
-          <div class="tag-row"><div class="weight-price"><span class="w">200 GRM</span><br><span class="p">₹65</span></div></div>
-          <div class="order-row">
-            <a class="order-btn z" href="https://www.zomato.com/mumbai/jb-farsan-and-sweet-mart-ulhasnagar-thane/order" target="_blank" rel="noopener">ZOMATO</a>
-            <a class="order-btn s" href="https://www.swiggy.com/city/mumbai/jb-farsan-and-sweet-mart-ulhasnagar-rest1151030" target="_blank" rel="noopener">SWIGGY</a>
-          </div>
-        </div>
-      </div>
-
-      <div class="card reveal">
-        <div class="accent-bar" style="background:var(--c-corn)"></div>
-        <div class="imgwrap"><img src="images/corn-chewda.jpg" alt="JB Corn Chewda 200g pack"></div>
-        <div class="body">
-          <h3>Corn Chewda</h3>
-          <p class="desc">Crunchy makai flakes with curry leaf and coconut shavings folded through. Namkeen-sweet, light on the palate.</p>
-          <div class="tag-row"><div class="weight-price"><span class="w">200 GRM</span><br><span class="p">₹65</span></div></div>
-          <div class="order-row">
-            <a class="order-btn z" href="https://www.zomato.com/mumbai/jb-farsan-and-sweet-mart-ulhasnagar-thane/order" target="_blank" rel="noopener">ZOMATO</a>
-            <a class="order-btn s" href="https://www.swiggy.com/city/mumbai/jb-farsan-and-sweet-mart-ulhasnagar-rest1151030" target="_blank" rel="noopener">SWIGGY</a>
-          </div>
-        </div>
-      </div>
-
-      <div class="card reveal">
-        <div class="accent-bar" style="background:var(--c-dryfruit)"></div>
-        <div class="imgwrap"><img src="images/dryfruit-makai-chewda.jpg" alt="JB Dry Fruit Makai Chewda 200g pack"></div>
-        <div class="body">
-          <h3>Dry Fruit Makai Chewda</h3>
-          <p class="desc">Corn chewda loaded with cashew, almond, raisins and pista — a wholesome, festive-grade mix.</p>
-          <div class="tag-row"><div class="weight-price"><span class="w">200 G</span><br><span class="p">₹85</span></div></div>
-          <div class="order-row">
-            <a class="order-btn z" href="https://www.zomato.com/mumbai/jb-farsan-and-sweet-mart-ulhasnagar-thane/order" target="_blank" rel="noopener">ZOMATO</a>
-            <a class="order-btn s" href="https://www.swiggy.com/city/mumbai/jb-farsan-and-sweet-mart-ulhasnagar-rest1151030" target="_blank" rel="noopener">SWIGGY</a>
-          </div>
-        </div>
-      </div>
-
-      <div class="card reveal">
-        <div class="accent-bar" style="background:var(--c-papdi)"></div>
-        <div class="imgwrap"><img src="images/papdi.jpg" alt="JB Papdi 200g pack"></div>
-        <div class="body">
-          <h3>Papdi</h3>
-          <p class="desc">Mouth-watering, crisp gram-flour papdi — no MSG, no added colours. The one everyone snacks straight from the pack.</p>
-          <div class="tag-row"><div class="weight-price"><span class="w">200 GRM</span><br><span class="p">₹65</span></div></div>
-          <div class="order-row">
-            <a class="order-btn z" href="https://www.zomato.com/mumbai/jb-farsan-and-sweet-mart-ulhasnagar-thane/order" target="_blank" rel="noopener">ZOMATO</a>
-            <a class="order-btn s" href="https://www.swiggy.com/city/mumbai/jb-farsan-and-sweet-mart-ulhasnagar-rest1151030" target="_blank" rel="noopener">SWIGGY</a>
-          </div>
-        </div>
-      </div>
-
-      <div class="card reveal">
-        <div class="accent-bar" style="background:var(--c-misal)"></div>
-        <div class="imgwrap"><img src="images/misal-bhel.jpg" alt="JB Misal Bhel 200g pack"></div>
-        <div class="body">
-          <h3>Misal Bhel</h3>
-          <p class="desc">Sev, gathiya, peanuts and puffed rice tossed misal-style — tangy, textured, straight out of an Ulhasnagar street stall.</p>
-          <div class="tag-row"><div class="weight-price"><span class="w">200 G</span><br><span class="p">₹65</span></div></div>
-          <div class="order-row">
-            <a class="order-btn z" href="https://www.zomato.com/mumbai/jb-farsan-and-sweet-mart-ulhasnagar-thane/order" target="_blank" rel="noopener">ZOMATO</a>
-            <a class="order-btn s" href="https://www.swiggy.com/city/mumbai/jb-farsan-and-sweet-mart-ulhasnagar-rest1151030" target="_blank" rel="noopener">SWIGGY</a>
-          </div>
-        </div>
-      </div>
-
-      <div class="card reveal">
-        <div class="accent-bar" style="background:var(--c-khatta)"></div>
-        <div class="imgwrap"><img src="images/khatta-meetha.jpg" alt="JB Khatta Meetha Bhel 200g pack"></div>
-        <div class="body">
-          <span class="spicy">🌶 Spicy</span>
-          <h3>Khatta Meetha Bhel</h3>
-          <p class="desc">The classic sweet-and-sour tea-time mix, balanced between tamarind tang and jaggery sweetness.</p>
-          <div class="tag-row"><div class="weight-price"><span class="w">200 G</span><br><span class="p">₹65</span></div></div>
-          <div class="order-row">
-            <a class="order-btn z" href="https://www.zomato.com/mumbai/jb-farsan-and-sweet-mart-ulhasnagar-thane/order" target="_blank" rel="noopener">ZOMATO</a>
-            <a class="order-btn s" href="https://www.swiggy.com/city/mumbai/jb-farsan-and-sweet-mart-ulhasnagar-rest1151030" target="_blank" rel="noopener">SWIGGY</a>
-          </div>
-        </div>
-      </div>
-
-      <div class="card reveal">
-        <div class="accent-bar" style="background:var(--c-lasun)"></div>
-        <div class="imgwrap"><img src="images/lasun-farsan.jpg" alt="JB Lasun Farsan 200g pack"></div>
-        <div class="body">
-          <h3>Lasun Farsan</h3>
-          <p class="desc">Crispy sev-mix perked up with real garlic — bold, punchy, built for the garlic-forward crowd.</p>
-          <div class="tag-row"><div class="weight-price"><span class="w">200 G</span><br><span class="p">₹65</span></div></div>
-          <div class="order-row">
-            <a class="order-btn z" href="https://www.zomato.com/mumbai/jb-farsan-and-sweet-mart-ulhasnagar-thane/order" target="_blank" rel="noopener">ZOMATO</a>
-            <a class="order-btn s" href="https://www.swiggy.com/city/mumbai/jb-farsan-and-sweet-mart-ulhasnagar-rest1151030" target="_blank" rel="noopener">SWIGGY</a>
-          </div>
-        </div>
-      </div>
-
-      <div class="card reveal">
-        <div class="accent-bar" style="background:var(--c-mix)"></div>
-        <div class="imgwrap"><img src="images/jairamdas-bhojraj.jpg" alt="Jairamdas Bhojraj Namkeen Farsan pack"></div>
-        <div class="body">
-          <h3>JB Mix Farsan</h3>
-          <p class="desc">The house blend under our full name — a royal tradition of the finest Indian snacks, savouries and sweets, in one tin.</p>
-          <div class="tag-row">
-            <div class="weight-price">
-              <span class="w">200 G</span> <span class="p">₹65</span><br>
-              <span class="w">400 G</span> <span class="p2">₹130</span>
-            </div>
-          </div>
-          <div class="order-row">
-            <a class="order-btn z" href="https://www.zomato.com/mumbai/jb-farsan-and-sweet-mart-ulhasnagar-thane/order" target="_blank" rel="noopener">ZOMATO</a>
-            <a class="order-btn s" href="https://www.swiggy.com/city/mumbai/jb-farsan-and-sweet-mart-ulhasnagar-rest1151030" target="_blank" rel="noopener">SWIGGY</a>
-          </div>
-        </div>
-      </div>
-
-      <!-- Dry Fruit Poha Chewda -->
-      <div class="card reveal">
-        <div class="accent-bar" style="background:#C1442E"></div>
-        <div class="imgwrap"><img src="images/p_dryfruit_poha_chewda.jpg" alt="JB Dry Fruit Poha Chewda 200g pack"></div>
-        <div class="body">
-          <h3>Dry Fruit Poha Chewda</h3>
-          <p class="desc">Flattened rice chewda loaded with almonds, cashews and raisins — rich, wholesome, and festive-grade.</p>
-          <div class="tag-row"><div class="weight-price"><span class="w">200 GM</span><br><span class="p">₹90</span></div></div>
-          <div class="order-row">
-            <a class="order-btn z" href="https://www.zomato.com/mumbai/jb-farsan-and-sweet-mart-ulhasnagar-thane/order" target="_blank" rel="noopener">ZOMATO</a>
-            <a class="order-btn s" href="https://www.swiggy.com/city/mumbai/jb-farsan-and-sweet-mart-ulhasnagar-rest1151030" target="_blank" rel="noopener">SWIGGY</a>
-          </div>
-        </div>
-      </div>
-
-      <!-- Red Bhavnagari (Kalyani Sev) -->
-      <div class="card reveal">
-        <div class="accent-bar" style="background:#D98A2B"></div>
-        <div class="imgwrap"><img src="images/p_red_bhavnagari_sev.jpg" alt="JB Red Bhavnagari Kalyani Sev 200g pack"></div>
-        <div class="body">
-          <span class="spicy">🌶 Spicy</span>
-          <h3>Red Bhavnagari (Kalyani Sev)</h3>
-          <p class="desc">Thick, peppery Gujarati-style sev with a deep red-chilli kick. A classic tea-time staple.</p>
-          <div class="tag-row"><div class="weight-price"><span class="w">200 GM</span><br><span class="p">₹65</span></div></div>
-          <div class="order-row">
-            <a class="order-btn z" href="https://www.zomato.com/mumbai/jb-farsan-and-sweet-mart-ulhasnagar-thane/order" target="_blank" rel="noopener">ZOMATO</a>
-            <a class="order-btn s" href="https://www.swiggy.com/city/mumbai/jb-farsan-and-sweet-mart-ulhasnagar-rest1151030" target="_blank" rel="noopener">SWIGGY</a>
-          </div>
-        </div>
-      </div>
-
-      <!-- Bhavnagari Gathiya -->
-      <div class="card reveal">
-        <div class="accent-bar" style="background:#C23B7A"></div>
-        <div class="imgwrap"><img src="images/p_bhavnagari_gathiya.jpg" alt="JB Bhavnagari Gathiya 200g pack"></div>
-        <div class="body">
-          <h3>Bhavnagari Gathiya</h3>
-          <p class="desc">Thick, soft-crunch gathiya made the traditional Gujarati way — great on its own or with kadhi.</p>
-          <div class="tag-row"><div class="weight-price"><span class="w">200 GM</span><br><span class="p">₹65</span></div></div>
-          <div class="order-row">
-            <a class="order-btn z" href="https://www.zomato.com/mumbai/jb-farsan-and-sweet-mart-ulhasnagar-thane/order" target="_blank" rel="noopener">ZOMATO</a>
-            <a class="order-btn s" href="https://www.swiggy.com/city/mumbai/jb-farsan-and-sweet-mart-ulhasnagar-rest1151030" target="_blank" rel="noopener">SWIGGY</a>
-          </div>
-        </div>
-      </div>
-
-      <!-- Barik Sev -->
-      <div class="card reveal">
-        <div class="accent-bar" style="background:#B5451F"></div>
-        <div class="imgwrap"><img src="images/p_barik_sev.jpg" alt="JB Barik Sev 200g pack"></div>
-        <div class="body">
-          <h3>Barik Sev</h3>
-          <p class="desc">Fine, crisp gram-flour sev — the everyday namkeen for chai, chivda mixes, or straight from the pack.</p>
-          <div class="tag-row"><div class="weight-price"><span class="w">200 GM</span><br><span class="p">₹65</span></div></div>
-          <div class="order-row">
-            <a class="order-btn z" href="https://www.zomato.com/mumbai/jb-farsan-and-sweet-mart-ulhasnagar-thane/order" target="_blank" rel="noopener">ZOMATO</a>
-            <a class="order-btn s" href="https://www.swiggy.com/city/mumbai/jb-farsan-and-sweet-mart-ulhasnagar-rest1151030" target="_blank" rel="noopener">SWIGGY</a>
-          </div>
-        </div>
-      </div>
-
-      <!-- Lemon Spicy Bhel -->
-      <div class="card reveal">
-        <div class="accent-bar" style="background:#B8A020"></div>
-        <div class="imgwrap"><img src="images/p_lemon_spicy_bhel.jpg" alt="JB Lemon Spicy Bhel 200g pack"></div>
-        <div class="body">
-          <span class="spicy">🌶 Spicy</span>
-          <h3>Lemon Spicy Bhel</h3>
-          <p class="desc">Tangy lemon-spiked bhel mix — sharp, zesty, and moreish in equal measure.</p>
-          <div class="tag-row"><div class="weight-price"><span class="w">200 GM</span><br><span class="p">₹65</span></div></div>
-          <div class="order-row">
-            <a class="order-btn z" href="https://www.zomato.com/mumbai/jb-farsan-and-sweet-mart-ulhasnagar-thane/order" target="_blank" rel="noopener">ZOMATO</a>
-            <a class="order-btn s" href="https://www.swiggy.com/city/mumbai/jb-farsan-and-sweet-mart-ulhasnagar-rest1151030" target="_blank" rel="noopener">SWIGGY</a>
-          </div>
-        </div>
-      </div>
-
-      <!-- Nylon Sev -->
-      <div class="card reveal">
-        <div class="accent-bar" style="background:#6B4FA0"></div>
-        <div class="imgwrap"><img src="images/p_nylon_sev.jpg" alt="JB Nylon Sev 200g pack"></div>
-        <div class="body">
-          <h3>Nylon Sev</h3>
-          <p class="desc">Ultra-thin, delicate sev with a light, melt-in-the-mouth crunch — a bhel and chaat essential.</p>
-          <div class="tag-row"><div class="weight-price"><span class="w">200 GM</span><br><span class="p">₹65</span></div></div>
-          <div class="order-row">
-            <a class="order-btn z" href="https://www.zomato.com/mumbai/jb-farsan-and-sweet-mart-ulhasnagar-thane/order" target="_blank" rel="noopener">ZOMATO</a>
-            <a class="order-btn s" href="https://www.swiggy.com/city/mumbai/jb-farsan-and-sweet-mart-ulhasnagar-rest1151030" target="_blank" rel="noopener">SWIGGY</a>
-          </div>
-        </div>
-      </div>
-
-      <!-- DalMoth Spicy -->
-      <div class="card reveal">
-        <div class="accent-bar" style="background:#C13333"></div>
-        <div class="imgwrap"><img src="images/p_dalmoth_spicy.jpg" alt="JB DalMoth Spicy 200g pack"></div>
-        <div class="body">
-          <span class="spicy">🌶 Spicy</span>
-          <h3>DalMoth Spicy</h3>
-          <p class="desc">Roasted lentils and nuts tossed in a fiery masala — bold, crunchy, built for spice lovers.</p>
-          <div class="tag-row"><div class="weight-price"><span class="w">200 GM</span><br><span class="p">₹65</span></div></div>
-          <div class="order-row">
-            <a class="order-btn z" href="https://www.zomato.com/mumbai/jb-farsan-and-sweet-mart-ulhasnagar-thane/order" target="_blank" rel="noopener">ZOMATO</a>
-            <a class="order-btn s" href="https://www.swiggy.com/city/mumbai/jb-farsan-and-sweet-mart-ulhasnagar-rest1151030" target="_blank" rel="noopener">SWIGGY</a>
-          </div>
-        </div>
-      </div>
-
-      <!-- DalMoth Kashmiri -->
-      <div class="card reveal">
-        <div class="accent-bar" style="background:#C99A2E"></div>
-        <div class="imgwrap"><img src="images/p_dalmoth_kashmiri.jpg" alt="JB DalMoth Kashmiri 200g pack"></div>
-        <div class="body">
-          <h3>DalMoth Kashmiri</h3>
-          <p class="desc">A milder, mildly-sweet take on classic dalmoth — roasted lentils and nuts with a gentler spice.</p>
-          <div class="tag-row"><div class="weight-price"><span class="w">200 GM</span><br><span class="p">₹65</span></div></div>
-          <div class="order-row">
-            <a class="order-btn z" href="https://www.zomato.com/mumbai/jb-farsan-and-sweet-mart-ulhasnagar-thane/order" target="_blank" rel="noopener">ZOMATO</a>
-            <a class="order-btn s" href="https://www.swiggy.com/city/mumbai/jb-farsan-and-sweet-mart-ulhasnagar-rest1151030" target="_blank" rel="noopener">SWIGGY</a>
-          </div>
-        </div>
-      </div>
-
-      <!-- Boondi -->
-      <div class="card reveal">
-        <div class="accent-bar" style="background:#9B5FC9"></div>
-        <div class="imgwrap"><img src="images/p_boondi.jpg" alt="JB Boondi 200g pack"></div>
-        <div class="body">
-          <h3>Boondi</h3>
-          <p class="desc">Crisp, golden gram-flour boondi — a simple, everyday namkeen that goes with everything.</p>
-          <div class="tag-row"><div class="weight-price"><span class="w">200 GM</span><br><span class="p">₹65</span></div></div>
-          <div class="order-row">
-            <a class="order-btn z" href="https://www.zomato.com/mumbai/jb-farsan-and-sweet-mart-ulhasnagar-thane/order" target="_blank" rel="noopener">ZOMATO</a>
-            <a class="order-btn s" href="https://www.swiggy.com/city/mumbai/jb-farsan-and-sweet-mart-ulhasnagar-rest1151030" target="_blank" rel="noopener">SWIGGY</a>
-          </div>
-        </div>
-      </div>
-
-      <!-- Kadak Sev -->
-      <div class="card reveal">
-        <div class="accent-bar" style="background:#6B4226"></div>
-        <div class="imgwrap"><img src="images/p_kadak_sev.jpg" alt="JB Kadak Sev 200g pack"></div>
-        <div class="body">
-          <h3>Kadak Sev</h3>
-          <p class="desc">Thicker, extra-crunchy sev for those who like a firmer bite in their namkeen.</p>
-          <div class="tag-row"><div class="weight-price"><span class="w">200 GM</span><br><span class="p">₹65</span></div></div>
-          <div class="order-row">
-            <a class="order-btn z" href="https://www.zomato.com/mumbai/jb-farsan-and-sweet-mart-ulhasnagar-thane/order" target="_blank" rel="noopener">ZOMATO</a>
-            <a class="order-btn s" href="https://www.swiggy.com/city/mumbai/jb-farsan-and-sweet-mart-ulhasnagar-rest1151030" target="_blank" rel="noopener">SWIGGY</a>
-          </div>
-        </div>
-      </div>
-
-      <!-- Tiranga Mix -->
-      <div class="card reveal">
-        <div class="accent-bar" style="background:#3C8C5C"></div>
-        <div class="imgwrap"><img src="images/p_tiranga_mix.jpg" alt="JB Tiranga Mix 200g pack"></div>
-        <div class="body">
-          <h3>Tiranga Mix</h3>
-          <p class="desc">A tri-colour namkeen mix — layered flavours and textures in every handful.</p>
-          <div class="tag-row"><div class="weight-price"><span class="w">200 GM</span><br><span class="p">₹65</span></div></div>
-          <div class="order-row">
-            <a class="order-btn z" href="https://www.zomato.com/mumbai/jb-farsan-and-sweet-mart-ulhasnagar-thane/order" target="_blank" rel="noopener">ZOMATO</a>
-            <a class="order-btn s" href="https://www.swiggy.com/city/mumbai/jb-farsan-and-sweet-mart-ulhasnagar-rest1151030" target="_blank" rel="noopener">SWIGGY</a>
-          </div>
-        </div>
-      </div>
-
-      <!-- Miri Gathiya -->
-      <div class="card reveal">
-        <div class="accent-bar" style="background:#2B7A8C"></div>
-        <div class="imgwrap"><img src="images/p_miri_gathiya.jpg" alt="JB Miri Gathiya 200g pack"></div>
-        <div class="body">
-          <span class="spicy">🌶 Spicy</span>
-          <h3>Miri Gathiya</h3>
-          <p class="desc">Black-pepper spiked gathiya — sharp, warming heat with every crunchy bite.</p>
-          <div class="tag-row"><div class="weight-price"><span class="w">200 GM</span><br><span class="p">₹65</span></div></div>
-          <div class="order-row">
-            <a class="order-btn z" href="https://www.zomato.com/mumbai/jb-farsan-and-sweet-mart-ulhasnagar-thane/order" target="_blank" rel="noopener">ZOMATO</a>
-            <a class="order-btn s" href="https://www.swiggy.com/city/mumbai/jb-farsan-and-sweet-mart-ulhasnagar-rest1151030" target="_blank" rel="noopener">SWIGGY</a>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<section class="why">
-  <div class="wrap">
-    <div class="grid3">
-      <div class="why-item reveal">
-        <span class="num">SINCE 1972</span>
-        <h3>Fifty years, one taste</h3>
-        <p>Nothing about the recipe has changed since the shop first opened — it's still the same jar Ulhasnagar has trusted for over five decades.</p>
-      </div>
-      <div class="why-item reveal">
-        <span class="num">100% VEG</span>
-        <h3>No added colours, no MSG</h3>
-        <p>What's printed on the pack is what's in it. Every batch is small, fresh and hand-checked.</p>
-      </div>
-      <div class="why-item reveal">
-        <span class="num">DOORSTEP</span>
-        <h3>Same shop, wider reach</h3>
-        <p>Order the exact counter-fresh mix on Zomato or Swiggy — no separate "online-only" recipe.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="reviews">
-  <div class="wrap">
-    <div class="section-head reveal">
-      <span class="tag">Google Reviews</span>
-      <h2>What Ulhasnagar says about us.</h2>
-      <div class="review-badge">★★★★☆ Rated by real customers on Google</div>
-    </div>
-    <div class="review-grid">
-      <div class="review-card reveal">
-        <div class="stars">★★★★★</div>
-        <p>"The farsan here is crunchy and flavourful without ever feeling oily, and the sweets are made with genuine ingredients — you can really taste the difference."</p>
-        <div class="who"><div class="avatar">V</div><div><div class="name">V J R</div><div class="src">Google Review</div></div></div>
-      </div>
-      <div class="review-card reveal">
-        <div class="stars">★★★★★</div>
-        <p>"Awesome place — picked up so many snacks to go with chai, plus sweets and nankatai. Everything here is genuinely good."</p>
-        <div class="who"><div class="avatar">S</div><div><div class="name">Sakshi Pardasani</div><div class="src">Google Review</div></div></div>
-      </div>
-      <div class="review-card reveal">
-        <div class="stars">★★★★☆</div>
-        <p>"An old, genuine and hygienic place for snacks of all kinds — they even take bulk orders for school trips and picnics."</p>
-        <div class="who"><div class="avatar">N</div><div><div class="name">Nishant Chaudhari</div><div class="src">Google Review</div></div></div>
-      </div>
-      <div class="review-card reveal">
-        <div class="stars">★★★★☆</div>
-        <p>"A huge variety of packed snacks — wafers, sweets, farsan, kachori, chips. If you're planning a trip, this is your one-stop shop."</p>
-        <div class="who"><div class="avatar">N</div><div><div class="name">Ninad Markandey</div><div class="src">Google Review</div></div></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="reels">
-  <div class="wrap">
-    <div class="section-head reveal">
-      <span class="tag">Follow Along</span>
-      <h2>Straight from our Instagram.</h2>
-      <p>@jb_farsan — swipe through our latest reels, no need to leave the page.</p>
-    </div>
-    <div class="reels-scroll">
-      <blockquote class="instagram-media reel-embed" data-instgrm-permalink="https://www.instagram.com/reel/DaX7yxiNmKj/" data-instgrm-version="14"></blockquote>
-      <blockquote class="instagram-media reel-embed" data-instgrm-permalink="https://www.instagram.com/reel/DbM2m15hWEQ/" data-instgrm-version="14"></blockquote>
-      <blockquote class="instagram-media reel-embed" data-instgrm-permalink="https://www.instagram.com/reel/DbKfgfvBKG3/" data-instgrm-version="14"></blockquote>
-      <blockquote class="instagram-media reel-embed" data-instgrm-permalink="https://www.instagram.com/reel/Da3CKM_Nd_7/" data-instgrm-version="14"></blockquote>
-      <blockquote class="instagram-media reel-embed" data-instgrm-permalink="https://www.instagram.com/reel/DaVYqPVhBUH/" data-instgrm-version="14"></blockquote>
-    </div>
-  </div>
-</section>
-<script async src="//www.instagram.com/embed.js"></script>
-
-<section class="platform-cta" id="order">
-  <div class="wrap">
-    <h2>Ready to order?</h2>
-    <p>Pick your platform — both carry the full JB Farsan menu.</p>
-    <div class="platform-buttons">
-      <a class="cta-btn cta-zomato" href="https://www.zomato.com/mumbai/jb-farsan-and-sweet-mart-ulhasnagar-thane/order" target="_blank" rel="noopener">Order on Zomato</a>
-      <a class="cta-btn cta-swiggy" href="https://www.swiggy.com/city/mumbai/jb-farsan-and-sweet-mart-ulhasnagar-rest1151030" target="_blank" rel="noopener">Order on Swiggy</a>
-      <a class="cta-btn cta-whatsapp" href="https://wa.me/919765083939?text=Hi%2C%20I%27d%20like%20to%20order%20from%20JB%20Farsan" target="_blank" rel="noopener">Order on WhatsApp</a>
-      <a class="cta-btn cta-insta" href="https://www.instagram.com/jb_farsan/" target="_blank" rel="noopener">Follow on Instagram</a>
-      <a class="cta-btn cta-fb" href="https://www.facebook.com/jbfarsann/" target="_blank" rel="noopener">Follow on Facebook</a>
-    </div>
-  </div>
-</section>
-
-<footer>
-  <div class="wrap">
-    <div class="foot-grid">
-      <div>
-        <div class="foot-brand">
-          <img src="images/jb-logo.png" alt="JB logo">
-          <span>Jairamdas Bhojraj</span>
-        </div>
-        <p>Shop No. 446 &amp; 447, Near MSEB Office, Shiv Road Bus Stand, Ulhasnagar No. 1, Maharashtra 421002.</p>
-      </div>
-      <div>
-        <h4>Explore</h4>
-        <ul>
-          <li><a href="#products">All Products</a></li>
-          <li><a href="#legacy">Our Legacy</a></li>
-          <li><a href="story.html">Our Story</a></li>
-          <li><a href="#order">Order Online</a></li>
-        </ul>
-      </div>
-      <div>
-        <h4>Order &amp; Reach Us</h4>
-        <ul>
-          <li><a href="https://www.zomato.com/mumbai/jb-farsan-and-sweet-mart-ulhasnagar-thane/order" target="_blank" rel="noopener">Zomato</a></li>
-          <li><a href="https://www.swiggy.com/city/mumbai/jb-farsan-and-sweet-mart-ulhasnagar-rest1151030" target="_blank" rel="noopener">Swiggy</a></li>
-          <li><a href="https://www.instagram.com/jb_farsan/" target="_blank" rel="noopener">Instagram</a></li>
-          <li><a href="https://www.facebook.com/jbfarsann/" target="_blank" rel="noopener">Facebook</a></li>
-        </ul>
-      </div>
-    </div>
-    <div class="foot-bottom">
-      <span>© JB FARSAN &amp; SWEETS — EST. 1972</span>
-      <span>ULHASNAGAR, MAHARASHTRA</span>
-    </div>
-  </div>
-</footer>
-
-<script>
-// Scroll-reveal animation
-const revealEls = document.querySelectorAll('.reveal');
-const revealObserver = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('in-view');
-      revealObserver.unobserve(entry.target);
-    }
-  });
-}, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
-revealEls.forEach(el => revealObserver.observe(el));
-
-// Hero product stack subtle tilt on scroll
-const heroStack = document.querySelector('.hero-visual .stack');
-if (heroStack) {
-  window.addEventListener('scroll', () => {
-    const y = window.scrollY;
-    if (y < 700) {
-      heroStack.style.transform = `translateY(${y * 0.12}px) rotate(${y * 0.015}deg)`;
-    }
-  }, { passive: true });
-}
-
-// Count-up animation for trust numbers
-function animateCount(el, target, suffix, duration) {
-  const start = performance.now();
-  function tick(now) {
-    const progress = Math.min((now - start) / duration, 1);
-    const eased = 1 - Math.pow(1 - progress, 3);
-    el.textContent = Math.round(eased * target) + suffix;
-    if (progress < 1) requestAnimationFrame(tick);
-  }
-  requestAnimationFrame(tick);
-}
-const trustNums = [
-  { selector: '.trust-item:nth-child(1) b', target: 50, suffix: '+' },
-  { selector: '.trust-item:nth-child(3) b', target: 535, suffix: '+' }
-];
-const trustRow = document.querySelector('.trust-row');
-if (trustRow) {
-  const trustObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        trustNums.forEach(item => {
-          const el = document.querySelector(item.selector);
-          if (el) animateCount(el, item.target, item.suffix, 1200);
-        });
-        trustObserver.disconnect();
-      }
-    });
-  }, { threshold: 0.4 });
-  trustObserver.observe(trustRow);
-}
-</script>
-
-</body>
-</html>
+  .foot-brand span{font-family:var(--display)
